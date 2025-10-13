@@ -80,7 +80,7 @@ export const WidgetChatScreen = () => {
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+        resolver: zodResolver(formSchema), 
         defaultValues: {
             message: "",
         },
