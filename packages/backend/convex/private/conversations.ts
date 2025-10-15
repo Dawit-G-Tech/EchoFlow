@@ -53,7 +53,7 @@ import { Doc } from "../_generated/dataModel";
     },
 }); */
 
-/* export const getOne = query({
+ export const getOne = query({
     args: { conversationId: v.id("conversations")
     },
     handler: async (ctx, args) => {
@@ -82,6 +82,7 @@ import { Doc } from "../_generated/dataModel";
                 message: "Conversation not found",
             });
         }
+
         if (conversation.organizationId !== orgId) {
             throw new ConvexError({
                 code: "UNAUTHORIZED",
@@ -93,7 +94,7 @@ import { Doc } from "../_generated/dataModel";
 
         if (!contactSession) {
             throw new ConvexError({
-                code: "not_found",
+                code: "NOT_FOUND",
                 message: "Contact session not found",
             });
         }
@@ -102,7 +103,7 @@ import { Doc } from "../_generated/dataModel";
             contactSession,
         };
     },
-}); */
+}); 
 
 export const getMany = query({
     args: {
