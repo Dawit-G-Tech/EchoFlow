@@ -5,7 +5,7 @@ import { MessageDoc, saveMessage } from "@convex-dev/agent";
 import { paginationOptsValidator, PaginationResult } from "convex/server";
 import { Doc } from "../_generated/dataModel";
 
-/* export const updateStatus =mutation({
+export const updateStatus =mutation({
     args: {
         conversationId: v.id("conversations"),
         status: v.union(
@@ -51,7 +51,7 @@ import { Doc } from "../_generated/dataModel";
             status: args.status,
         });
     },
-}); */
+}); 
 
  export const getOne = query({
     args: { conversationId: v.id("conversations")
