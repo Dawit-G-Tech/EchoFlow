@@ -1,7 +1,7 @@
 import {ConvexError, v} from "convex/values";
 import {internalMutation, internalQuery} from "../_generated/server";
 
-/* export const escalate = internalMutation({
+export const escalate = internalMutation({
     args: {
         threadId: v.string(),
     },
@@ -19,9 +19,9 @@ import {internalMutation, internalQuery} from "../_generated/server";
         }
         await ctx.db.patch(conversation._id, {status:"escalated"});
     }
-}); */
+}); 
 
-/* export const resolve = internalMutation({
+export const resolve = internalMutation({
     args: {
         threadId: v.string(),
     },
@@ -40,8 +40,8 @@ import {internalMutation, internalQuery} from "../_generated/server";
 
         await ctx.db.patch(conversation._id, {status:"resolved"});
 
-    }
-}); */
+    },
+}); 
 
 
 export const getByThreadId = internalQuery({

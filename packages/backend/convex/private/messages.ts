@@ -1,13 +1,13 @@
 import {action, mutation, query} from "../_generated/server";
 import {ConvexError, v} from "convex/values";
-//import {generateText} from "ai";
+import {generateText} from "ai";
 import { components} from "../_generated/api";
 import { supportAgent } from "../system/ai/agents/supportAgent";
 import { paginationOptsValidator } from "convex/server";
 import { saveMessage } from "@convex-dev/agent";
-//import { openai } from "@ai-sdk/openai";
+import { google } from '@ai-sdk/google';
 
-/* export const enhanceResponse = action ({
+export const enhanceResponse = action ({
     args: {
         prompt: v.string(),
     },
@@ -28,7 +28,7 @@ import { saveMessage } from "@convex-dev/agent";
             });
         }
 
-        const subscription = await ctx.runQuery(
+        /* const subscription = await ctx.runQuery(
             internal.system.subscriptions.getByOrganizationId,
             {
                 organizationId: orgId,
@@ -40,10 +40,10 @@ import { saveMessage } from "@convex-dev/agent";
                 code: "BAD_REQUEST",
                 message: "Missing subscription",
             });
-        }
+        } */
 
         const response = await generateText({
-            model: openai("gpt-4o-mini"),
+            model: google.chat("gemini-2.0-flash"),
             messages: [
                 { 
                     role: "system", 
@@ -57,7 +57,7 @@ import { saveMessage } from "@convex-dev/agent";
         });
         return response.text;
     },
-}); */
+}); 
 
 export const create = mutation({
         args: {
