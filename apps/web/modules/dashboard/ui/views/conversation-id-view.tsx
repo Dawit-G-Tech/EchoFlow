@@ -34,7 +34,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 
 import {toUIMessages, useThreadMessages} from "@convex-dev/agent/react";
 import { DicebearAvatar } from "@workspace/ui/components/dicebear-avatar";
-//import { ConversationStatusButton } from "../components/conversation-status-button";
+import { ConversationStatusButton } from "../components/conversation-status-button";
 import { useState } from "react";
 import { cn } from "@workspace/ui/lib/utils";
 import { Skeleton } from "@workspace/ui/components/skeleton";
@@ -59,7 +59,7 @@ export const ConversationIdView = ({
         {initialNumItems: 10,}
     ); 
 
-    /* const {
+    const {
         topElementRef,
         handleLoadMore,
         canLoadMore,
@@ -68,7 +68,7 @@ export const ConversationIdView = ({
         status: messages.status,
         loadMore: messages.loadMore,
         loadSize: 10,
-    }); */
+    });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -77,7 +77,7 @@ export const ConversationIdView = ({
         },
     });
 
-    /* const [isEnhancing, setIsEnhancing] = useState(false);
+    const [isEnhancing, setIsEnhancing] = useState(false);
     const enhanceResponse = useAction(api.private.messages.enhanceResponse);
     const handleEnhanceResponse = async () => {
         setIsEnhancing(true);
@@ -93,7 +93,7 @@ export const ConversationIdView = ({
         } finally {
             setIsEnhancing(false);
         }
-    } */
+    }
 
     const createMessage = useMutation(api.private.messages.create);
 
@@ -111,36 +111,40 @@ export const ConversationIdView = ({
        console.log(values);
     };
 
-    /* const updateConversationStatus = useMutation(api.private.conversations.updateStatus);
+    const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+    const updateConversationStatus = useMutation(api.private.conversations.updateStatus);
     const handleToggleStatus = async () => {
         if (!conversation) {
             return;
-    } */
-
-    /* let newStatus: "unresolved" | "resolved" | "escalated";
-
-    // Cycle through states: unresolved -> escalated -> resolved -> unresolved
-    if (conversation.status === "unresolved") {
-        newStatus = "escalated";
-    } else if (conversation.status === "escalated") {
-        newStatus = "resolved";
-    } else {
-        newStatus = "unresolved";
-    }
-
-    try {
-        await updateConversationStatus({
-            conversationId,
-            status: newStatus,
-        });
-        } catch (error) {
-            console.error(error);
         }
-    }; */
+        setIsUpdatingStatus(true);
 
-    /* if (conversation === undefined || messages.status === "LoadingFirstPage") {
+        let newStatus: "unresolved" | "resolved" | "escalated";
+
+        // Cycle through states: unresolved -> escalated -> resolved -> unresolved
+        if (conversation.status === "unresolved") {
+            newStatus = "escalated";
+        } else if (conversation.status === "escalated") {
+            newStatus = "resolved";
+        } else {
+            newStatus = "unresolved";
+        }
+
+        try {
+            await updateConversationStatus({
+                conversationId,
+                status: newStatus,
+            });
+            } catch (error) {
+                console.error(error);
+            } finally{
+                setIsUpdatingStatus(false);
+            }
+        }; 
+
+    if (conversation === undefined || messages.status === "LoadingFirstPage") {
         return <ConversationIdViewLoading />;
-    } */
+    }
 
     return (
          <div className = "flex h-full flex-col bg-muted">
@@ -151,21 +155,22 @@ export const ConversationIdView = ({
                 >
                     <MoreHorizontalIcon/>
                 </Button>
-                 {/* {!!conversation && (
-                <ConversationStatusButton
-                    onClick={handleToggleStatus}
-                    status={conversation?.status}
-                />
-                )}  */}
+                {!!conversation && (
+                    <ConversationStatusButton
+                        onClick={handleToggleStatus}
+                        status={conversation?.status}
+                        disabled={isUpdatingStatus}
+                    />
+                )}  
             </header>
             <AIConversation className="max-h-[calc(100vh-180px)]">
                 <AIConversationContent>
-                     {/* <InfiniteScrollTrigger
+                    <InfiniteScrollTrigger
                         canLoadMore={canLoadMore}
                         isLoadingMore={isLoadingMore}
                         onLoadMore={handleLoadMore}
                         ref={topElementRef}
-                    />  */}
+                    />
                     {toUIMessages(messages.results??[])?.map((message)=>(
                         <AIMessage
                         from ={message.role === "user"?"assistant":"user"}
@@ -199,7 +204,8 @@ export const ConversationIdView = ({
                                 <AIInputTextarea
                                     disabled={
                                         conversation?.status ==="resolved" ||
-                                        form.formState.isSubmitting           
+                                        form.formState.isSubmitting ||
+                                        isEnhancing     
                                     }
                                     onChange={field.onChange}
                                     onKeyDown={(e) => {
@@ -219,16 +225,20 @@ export const ConversationIdView = ({
                         />
                         <AIInputToolbar>
                             <AIInputTools>
-                                <AIInputButton>
+                                <AIInputButton
+                                    onClick={handleEnhanceResponse}
+                                    disabled={conversation?.status === "resolved" || isEnhancing || !form.formState.isValid}
+                                >
                                     <Wand2Icon />
-                                    Enhance
+                                    {isEnhancing ? "Enhancing..." : "Enhance"}
                                 </AIInputButton>
                             </AIInputTools>
                             <AIInputSubmit
                                 disabled={
                                     conversation?.status ==="resolved" ||
                                     form.formState.isSubmitting ||
-                                    !form.formState.isValid
+                                    !form.formState.isValid ||
+                                    isEnhancing
                                 }
                                 status="ready"
                                 type="submit"
@@ -241,7 +251,7 @@ export const ConversationIdView = ({
     ); 
 };
 
-/* export const ConversationIdViewLoading = () => {
+export const ConversationIdViewLoading = () => {
     return (
         <div className="flex h-full flex-col bg-muted">
             <header className="flex items-center justify-between border-b bg-background p-2.5">
@@ -286,4 +296,4 @@ export const ConversationIdView = ({
             </div>
         </div>
     );
-}; */
+};
