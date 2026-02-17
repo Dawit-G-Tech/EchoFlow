@@ -150,7 +150,7 @@ export const addFile = action({
         uploadedBy: orgId,
         filename,
         category: category ?? null,
-      }, 
+      } as EntryMetadata, 
 
       //  To avoid re-inserting if the file content hasn't changed
       contentHash: await contentHashFromArrayBuffer(bytes),
@@ -168,7 +168,7 @@ export const addFile = action({
   },
 });
 
-/* export const list = query({
+export const list = query({
   args: {
     category: v.optional(v.string()),
     paginationOpts: paginationOptsValidator,
@@ -219,9 +219,9 @@ export const addFile = action({
       continueCursor: results.continueCursor,
     };
   },
-}); */
+});
 
-/* export type PublicFile = {
+export type PublicFile = {
   id: EntryId;
   name: string;
   type: string;
@@ -229,16 +229,16 @@ export const addFile = action({
   status: "ready" | "processing" | "error";
   url: string | null;
   category?: string;
-}; */
+};
 
-/* type EntryMetadata = {
+type EntryMetadata = {
   storageId: Id<"_storage">;
   uploadedBy: string;
   filename: string;
   category?: string | null;
-}; */
+};
 
-/* async function convertEntryToPublishFile(
+async function convertEntryToPublishFile(
   ctx: QueryCtx,
   entry: Entry
 ): Promise<PublicFile> {
@@ -280,9 +280,9 @@ export const addFile = action({
     url,
     category: metadata?.category || undefined,
   };
-} */
+}
 
-/* function formatFileSize(bytes: number): string {
+function formatFileSize(bytes: number): string {
   if (bytes === 0) {
     return "0 B";
   }
@@ -292,4 +292,4 @@ export const addFile = action({
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
   return `${Number.parseFloat((bytes / k ** i).toFixed(1))} ${sizes[i]}`;
-} */
+}
