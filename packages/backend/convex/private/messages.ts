@@ -43,7 +43,7 @@ export const enhanceResponse = action ({
         } */
 
         const response = await generateText({
-            model: google.chat("gemini-2.0-flash"),
+            model: google.chat("gemini-2.5-flash-lite"),
             messages: [
                 { 
                     role: "system", 
