@@ -2,7 +2,7 @@
 
 import {  useAtomValue, useSetAtom } from "jotai";
 import { Loader2Icon } from "lucide-react";
-import { contactSessionIdAtomFamily, errorMessageAtom, loadingMessageAtom, organizationIdAtom, screenAtom, widgetSettingsAtom } from "../../atoms/widget-atoms";
+import { contactSessionIdAtomFamily, errorMessageAtom, loadingMessageAtom, organizationIdAtom, screenAtom, vapiSecretsAtom, widgetSettingsAtom } from "../../atoms/widget-atoms";
 import { WidgetHeader } from "../components/widget-header";
 import { useEffect, useState } from "react";
 import { useAction, useMutation, useQuery } from "convex/react";
@@ -22,6 +22,7 @@ export const WidgetLoadingScreen = ({ organizationId }: { organizationId : strin
     const setLoadingMessage = useSetAtom(loadingMessageAtom);
     const setScreen = useSetAtom(screenAtom);
     const setWidgetSettings = useSetAtom(widgetSettingsAtom);
+    const setVapiSecrets = useSetAtom(vapiSecretsAtom);
 
     const contactSessionId = useAtomValue(contactSessionIdAtomFamily(organizationId || ""));
 
@@ -112,11 +113,11 @@ export const WidgetLoadingScreen = ({ organizationId }: { organizationId : strin
 
     if (widgetSettings !== undefined) {
       setWidgetSettings(widgetSettings);
-      setStep("done");
+      setStep("vapi");
     }
   }, [step, setStep, widgetSettings, setWidgetSettings, setLoadingMessage]);
 
-  /* // Step - 4 : Load VAPI Secrets
+  // Step - 4 : Load VAPI Secrets
   const getVapiSecrets = useAction(api.public.secrets.getVapiSecrets);
   useEffect(() => {
     if (step !== "vapi") {
@@ -147,7 +148,7 @@ export const WidgetLoadingScreen = ({ organizationId }: { organizationId : strin
     setVapiSecrets,
     setLoadingMessage,
     setStep,
-  ]); */
+  ]);
 
 
     useEffect(() => {
