@@ -19,6 +19,7 @@ import {
   GlobeIcon,
   LinkIcon,
   UserIcon,
+  ClockIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -155,10 +156,6 @@ export const ContactPanel = () => {
             value: contactSession.metadata.language,
           },
           {
-            label: "Languages",
-            value: contactSession.metadata.languages || "",
-          },
-          {
             label: "Timezone",
             value: contactSession.metadata.timezone,
           },
@@ -172,7 +169,7 @@ export const ContactPanel = () => {
       },
       {
         id: "page-info",
-        icon: LinkIcon, // pick any suitable icon
+        icon: LinkIcon, 
         title: "Page Information",
         items: [
           {
@@ -187,7 +184,7 @@ export const ContactPanel = () => {
       },
       {
         id: "session-info",
-        icon: UserIcon, // pick any suitable icon
+        icon: ClockIcon, 
         title: "Session Information",
         items: [
           {
@@ -199,8 +196,8 @@ export const ContactPanel = () => {
             value: contactSession.email,
           },
           {
-            label: "Organization ID",
-            value: contactSession.organizationId,
+            label: "Session Started",
+            value: new Date(contactSession._creationTime).toLocaleString(),
           },
           {
             label: "Session Expiry",
