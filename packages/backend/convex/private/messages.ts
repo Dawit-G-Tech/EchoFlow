@@ -1,7 +1,7 @@
 import {action, mutation, query} from "../_generated/server";
 import {ConvexError, v} from "convex/values";
 import {generateText} from "ai";
-import { components} from "../_generated/api";
+import { components, internal} from "../_generated/api";
 import { supportAgent } from "../system/ai/agents/supportAgent";
 import { paginationOptsValidator } from "convex/server";
 import { saveMessage } from "@convex-dev/agent";
@@ -29,7 +29,7 @@ export const enhanceResponse = action ({
             });
         }
 
-        /* const subscription = await ctx.runQuery(
+        const subscription = await ctx.runQuery(
             internal.system.subscriptions.getByOrganizationId,
             {
                 organizationId: orgId,
@@ -41,7 +41,7 @@ export const enhanceResponse = action ({
                 code: "BAD_REQUEST",
                 message: "Missing subscription",
             });
-        } */
+        }
 
         const response = await generateText({
             model: google.chat("gemini-2.5-flash-lite"),
