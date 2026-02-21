@@ -110,7 +110,7 @@ export const addFile = action({
       });
     }
 
-    /* const subscription = await ctx.runQuery(
+    const subscription = await ctx.runQuery(
       internal.system.subscriptions.getByOrganizationId,
       {
         organizationId: orgId,
@@ -123,7 +123,7 @@ export const addFile = action({
         message:
           "Your organization does not have an active subscription to use this feature.",
       });
-    } */
+    }
 
     const { bytes, filename, category } = args;
 

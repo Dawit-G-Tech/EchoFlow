@@ -2,7 +2,7 @@ import { mutation, query } from "../_generated/server";
 import { ConvexError, v } from "convex/values";
 import { supportAgent } from "../system/ai/agents/supportAgent";
 import { MessageDoc, saveMessage } from "@convex-dev/agent";
-import { components } from "../_generated/api";
+import { components, internal } from "../_generated/api";
 import { paginationOptsValidator } from "convex/server";
 
 
@@ -119,6 +119,11 @@ export const create = mutation ({
             });
         }
 
+        // This refreshes the users session if they are within the threshold
+        await ctx.runMutation(internal.system.contactSessions.refresh, {
+        contactSessionId: args.contactSessionId,
+        });
+        
         const widgetSettings = await ctx.db
             .query("widgetSettings")
             .withIndex("by_organization_id", (q) => q.eq("organizationId", args.organizationId),

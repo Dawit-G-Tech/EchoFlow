@@ -1,11 +1,8 @@
-//import { ConvexError, v } from "convex/values"
+import { ConvexError, v } from "convex/values"
 import { internalMutation, internalQuery } from "../_generated/server"
-import { v } from "convex/values";
-//import { SESSION_DURATION_MS } from "../constant"
+import { AUTO_REFRESH_THRESHOLD_MS, SESSION_DURATION_MS } from "../constants";
 
-//const AUTO_REFRESH_THRESHOLD_MS = 4 * 60 * 60 * 1000; // 4 heures
-
-/* export const refresh = internalMutation({
+export const refresh = internalMutation({
     args: {
         contactSessionId: v.id("contactSessions"),
     },
@@ -40,7 +37,7 @@ import { v } from "convex/values";
 
         return contactSession;
     },
-}) */
+})
 
 export const getOne = internalQuery({
     args:{
